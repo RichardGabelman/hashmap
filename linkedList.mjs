@@ -5,8 +5,9 @@ export class LinkedList {
     this.head = null;
   }
 
-  append(value) {
+  append(key, value) {
     const tail = new Node();
+    tail.key = key;
     tail.value = value;
 
     if (this.head == null) {
@@ -17,8 +18,9 @@ export class LinkedList {
     this.tail().nextNode = tail;
   }
 
-  prepend(value) {
+  prepend(key, value) {
     const head = new Node();
+    head.key = key;
     head.value = value;
 
     head.nextNode = this.head;
@@ -78,7 +80,33 @@ export class LinkedList {
     return curr;
   }
 
-  contains(value) {
+  containsKey(key) {
+    let curr = this.head;
+
+    while (curr.nextNode) {
+      if (curr.key == key) {
+        return true;
+      }
+      curr = curr.nextNode;
+    }
+    return false;
+  }
+
+  findKey(key) {
+    let index = 0;
+    let curr = this.head;
+
+    while (curr.nextNode) {
+      if (curr.key == key) {
+        return index;
+      }
+      curr = curr.nextNode;
+      index++;
+    }
+    return null;
+  }
+
+  containsVal(value) {
     let curr = this.head;
 
     while (curr.nextNode) {
@@ -90,7 +118,7 @@ export class LinkedList {
     return false;
   }
 
-  find(value) {
+  findVal(value) {
     let index = 0;
     let curr = this.head;
 
@@ -117,16 +145,17 @@ export class LinkedList {
     return string;
   }
 
-  insertAt(value, index) {
+  insertAt(key, value, index) {
     if (index == 0) {
-      this.prepend(value);
+      this.prepend(key, value);
       return;
     }
     if (index >= this.size()) {
-      this.append(value);
+      this.append(key, value);
       return;
     }
     const newNode = new Node();
+    newNode.key = key;
     newNode.value = value;
     newNode.nextNode = this.atIndex(index);
 
