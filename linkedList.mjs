@@ -181,4 +181,28 @@ export class LinkedList {
     let nextAfter = this.atIndex(index).nextNode;
     curr.nextNode = nextAfter;
   }
+
+  getKeys() {
+    let keys = [];
+    let curr = this.head;
+
+    while (curr) {
+      keys.push(curr.key);
+      curr = curr.nextNode;
+    }
+
+    return keys;
+  }
+
+  getValues() {
+    let values = [];
+    let curr = this.head;
+
+    while (curr) {
+      values.push(curr.value);
+      curr = curr.nextNode;
+    }
+
+    return values;
+  }
 }
