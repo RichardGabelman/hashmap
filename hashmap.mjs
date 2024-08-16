@@ -7,7 +7,7 @@ export class HashMap {
     this.loadFactor = 0.75;
     this.size = 0;
     this.capacity = MIN_SIZE;
-    this.buckets = new Array(capacity);
+    this.buckets = new Array(this.capacity);
     for (let i = 0; i < this.capacity; i++) {
       this.buckets[i] = new LinkedList();
     }
@@ -26,7 +26,7 @@ export class HashMap {
   }
 
   set(key, value) {
-    const index = hash(key);
+    const index = this.hash(key);
 
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bound");
@@ -35,7 +35,7 @@ export class HashMap {
     const bucket = this.buckets[index];
 
     if (bucket.containsKey(key)) {
-      const existingNode = bucket.findKey(key);
+      const existingNode = bucket.atIndex(bucket.findKey(key));
       existingNode.value = value;
       return;
     }
@@ -49,7 +49,7 @@ export class HashMap {
   }
 
   get(key) {
-    const index = hash(key);
+    const index = this.hash(key);
 
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bound");
@@ -67,7 +67,7 @@ export class HashMap {
   }
 
   has(key) {
-    const index = hash(key);
+    const index = this.hash(key);
 
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bound");
@@ -79,7 +79,7 @@ export class HashMap {
   }
 
   remove(key) {
-    const index = hash(key);
+    const index = this.hash(key);
 
     if (index < 0 || index >= this.buckets.length) {
       throw new Error("Trying to access index out of bound");
@@ -88,7 +88,7 @@ export class HashMap {
     const bucket = this.buckets[index];
 
     if (bucket.containsKey(key)) {
-      const nodeIndex = bucket.findKey;
+      const nodeIndex = bucket.findKey(key);
       bucket.removeAt(nodeIndex);
       this.size--;
       return true;
@@ -144,9 +144,9 @@ export class HashMap {
 
     for (let i = 0; i < keys.length; i++) {
       const newPair = [];
-      newPair.append(keys[i]);
-      newPair.append(values[i]);
-      entries.append(newPair);
+      newPair.push(keys[i]);
+      newPair.push(values[i]);
+      entries.push(newPair);
     }
 
     return entries;
@@ -157,7 +157,7 @@ export class HashMap {
     const currCapacity = this.capacity;
     const newCapacity = currCapacity * 2;
 
-    this.clear();
+    this.clear(newCapacity);
     for (let i = 0; i < entries.length; i++) {
       const key = entries[i][0];
       const value = entries[i][1];

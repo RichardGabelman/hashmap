@@ -83,7 +83,7 @@ export class LinkedList {
   containsKey(key) {
     let curr = this.head;
 
-    while (curr.nextNode) {
+    while (curr) {
       if (curr.key == key) {
         return true;
       }
@@ -96,7 +96,7 @@ export class LinkedList {
     let index = 0;
     let curr = this.head;
 
-    while (curr.nextNode) {
+    while (curr) {
       if (curr.key == key) {
         return index;
       }
@@ -109,7 +109,7 @@ export class LinkedList {
   containsVal(value) {
     let curr = this.head;
 
-    while (curr.nextNode) {
+    while (curr) {
       if (curr.value == value) {
         return true;
       }
@@ -122,7 +122,7 @@ export class LinkedList {
     let index = 0;
     let curr = this.head;
 
-    while (curr.nextNode) {
+    while (curr) {
       if (curr.value == value) {
         return index;
       }
@@ -169,6 +169,10 @@ export class LinkedList {
 
   removeAt(index) {
     if (index >= this.size()) {
+      return;
+    }
+    if (index == 0) {
+      this.head = this.head.nextNode;
       return;
     }
 
