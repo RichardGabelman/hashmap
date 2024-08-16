@@ -42,6 +42,9 @@ export class HashMap {
 
     bucket.append(key, value);
     this.size++;
+    if (this.size > (this.loadFactor * this.capacity)) {
+      this.updateSize();
+    }
     return;
   }
 
@@ -97,8 +100,8 @@ export class HashMap {
     return this.size;
   }
 
-  clear() {
-    this.capacity = MIN_SIZE;
+  clear(newCapacity = MIN_SIZE) {
+    this.capacity = newCapacity;
     this.buckets = new Array(this.capacity);
     this.size = 0;
 
@@ -147,5 +150,20 @@ export class HashMap {
     }
 
     return entries;
+  }
+
+  updateSize() {
+    const entries = this.entries();
+    const currCapacity = this.capacity;
+    const newCapacity = currCapacity * 2;
+
+    this.clear();
+    for (let i = 0; i < entries.length; i++) {
+      const key = entries[i][0];
+      const value = entries[i][1];
+      this.set(key, value);
+    }
+
+    return;
   }
 }
